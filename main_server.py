@@ -16,14 +16,6 @@ class S(http.server.SimpleHTTPRequestHandler):
         self.end_headers()
     def _no_response(self):
         self.send_response(200)
-
-
-    '''
-    def do_GET(self):
-        #logging.info("GET request,\nPath: %s\nHeaders:\n%s\n", str(self.path), str(self.headers))
-        self._set_response()
-        self.wfile.write("ok GET".encode('utf-8'))
-    '''
     def do_POST(self):
         file_name='d.py'
         content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
@@ -32,13 +24,6 @@ class S(http.server.SimpleHTTPRequestHandler):
         f = open(file_name, "w")
         with f:
             f.write(clean_data)
-        '''
-        try:
-            py_compile.compile(file_name)
-        except BaseException as e:
-            self._set_response()
-            self.wfile.write(('Error in code:').encode('utf-8'))
-        '''
         try:
             fc = Flowchart.from_code(clean_data)
             flowcode=fc.flowchart()
